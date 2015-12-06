@@ -3,13 +3,13 @@ package com.example.shdemo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.shdemo.domain.Rezyser;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.shdemo.domain.Car;
-import com.example.shdemo.domain.Person;
 
 @Component
 @Transactional
@@ -27,43 +27,43 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 	
 	@Override
-	public void addClient(Person person) {
-		person.setId(null);
-		sessionFactory.getCurrentSession().persist(person);
+	public void addClient(Rezyser rezyser) {
+		rezyser.setId(null);
+		sessionFactory.getCurrentSession().persist(rezyser);
 	}
 	
 	@Override
-	public void deleteClient(Person person) {
-		person = (Person) sessionFactory.getCurrentSession().get(Person.class,
-				person.getId());
+	public void deleteClient(Rezyser rezyser) {
+		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
+				rezyser.getId());
 		
 		// lazy loading here
-		for (Car car : person.getCars()) {
+		for (Car car : rezyser.getCars()) {
 			car.setSold(false);
 			sessionFactory.getCurrentSession().update(car);
 		}
-		sessionFactory.getCurrentSession().delete(person);
+		sessionFactory.getCurrentSession().delete(rezyser);
 	}
 
 	@Override
-	public List<Car> getOwnedCars(Person person) {
-		person = (Person) sessionFactory.getCurrentSession().get(Person.class,
-				person.getId());
+	public List<Car> getOwnedCars(Rezyser rezyser) {
+		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
+				rezyser.getId());
 		// lazy loading here - try this code without (shallow) copying
-		List<Car> cars = new ArrayList<Car>(person.getCars());
+		List<Car> cars = new ArrayList<Car>(rezyser.getCars());
 		return cars;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Person> getAllClients() {
+	public List<Rezyser> getAllClients() {
 		return sessionFactory.getCurrentSession().getNamedQuery("person.all")
 				.list();
 	}
 
 	@Override
-	public Person findClientByPin(String pin) {
-		return (Person) sessionFactory.getCurrentSession().getNamedQuery("person.byPin").setString("pin", pin).uniqueResult();
+	public Rezyser findClientByPin(String pin) {
+		return (Rezyser) sessionFactory.getCurrentSession().getNamedQuery("person.byPin").setString("pin", pin).uniqueResult();
 	}
 
 
@@ -75,12 +75,12 @@ public class SellingMangerHibernateImpl implements SellingManager {
 
 	@Override
 	public void sellCar(Long personId, Long carId) {
-		Person person = (Person) sessionFactory.getCurrentSession().get(
-				Person.class, personId);
+		Rezyser rezyser = (Rezyser) sessionFactory.getCurrentSession().get(
+				Rezyser.class, personId);
 		Car car = (Car) sessionFactory.getCurrentSession()
 				.get(Car.class, carId);
 		car.setSold(true);
-		person.getCars().add(car);
+		rezyser.getCars().add(car);
 	}
 
 	@Override
@@ -90,23 +90,23 @@ public class SellingMangerHibernateImpl implements SellingManager {
 				.list();
 	}
 	@Override
-	public void disposeCar(Person person, Car car) {
+	public void disposeCar(Rezyser rezyser, Car car) {
 
-		person = (Person) sessionFactory.getCurrentSession().get(Person.class,
-				person.getId());
+		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
+				rezyser.getId());
 		car = (Car) sessionFactory.getCurrentSession().get(Car.class,
 				car.getId());
 
 		Car toRemove = null;
-		// lazy loading here (person.getCars)
-		for (Car aCar : person.getCars())
+		// lazy loading here (rezyser.getCars)
+		for (Car aCar : rezyser.getCars())
 			if (aCar.getId().compareTo(car.getId()) == 0) {
 				toRemove = aCar;
 				break;
 			}
 
 		if (toRemove != null)
-			person.getCars().remove(toRemove);
+			rezyser.getCars().remove(toRemove);
 
 		car.setSold(false);
 	}

@@ -19,10 +19,10 @@ import javax.persistence.TemporalType;
 
 @Entity
 @NamedQueries({ 
-	@NamedQuery(name = "person.all", query = "Select p from Person p"),
-	@NamedQuery(name = "person.byPin", query = "Select p from Person p where p.pin = :pin")
+	@NamedQuery(name = "person.all", query = "Select p from Rezyser p"),
+	@NamedQuery(name = "person.byPin", query = "Select p from Rezyser p where p.pin = :pin")
 })
-public class Person {
+public class Rezyser {
 
 	private Long id;
 

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import com.example.shdemo.domain.Rezyser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.shdemo.domain.Car;
-import com.example.shdemo.domain.Person;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
@@ -39,24 +39,24 @@ public class SellingManagerTest {
 	@Test
 	public void addClientCheck() {
 
-		List<Person> retrievedClients = sellingManager.getAllClients();
+		List<Rezyser> retrievedClients = sellingManager.getAllClients();
 
 		// If there is a client with PIN_1 delete it
-		for (Person client : retrievedClients) {
+		for (Rezyser client : retrievedClients) {
 			if (client.getPin().equals(PIN_1)) {
 				sellingManager.deleteClient(client);
 			}
 		}
 
-		Person person = new Person();
-		person.setFirstName(NAME_1);
-		person.setPin(PIN_1);
+		Rezyser rezyser = new Rezyser();
+		rezyser.setFirstName(NAME_1);
+		rezyser.setPin(PIN_1);
 		// ... other properties here
 
 		// Pin is Unique
-		sellingManager.addClient(person);
+		sellingManager.addClient(rezyser);
 
-		Person retrievedClient = sellingManager.findClientByPin(PIN_1);
+		Rezyser retrievedClient = sellingManager.findClientByPin(PIN_1);
 
 		assertEquals(NAME_1, retrievedClient.getFirstName());
 		assertEquals(PIN_1, retrievedClient.getPin());
@@ -83,13 +83,13 @@ public class SellingManagerTest {
 	@Test
 	public void sellCarCheck() {
 
-		Person person = new Person();
-		person.setFirstName(NAME_2);
-		person.setPin(PIN_2);
+		Rezyser rezyser = new Rezyser();
+		rezyser.setFirstName(NAME_2);
+		rezyser.setPin(PIN_2);
 
-		sellingManager.addClient(person);
+		sellingManager.addClient(rezyser);
 
-		Person retrievedPerson = sellingManager.findClientByPin(PIN_2);
+		Rezyser retrievedRezyser = sellingManager.findClientByPin(PIN_2);
 
 		Car car = new Car();
 		car.setMake(MAKE_2);
@@ -97,9 +97,9 @@ public class SellingManagerTest {
 
 		Long carId = sellingManager.addNewCar(car);
 
-		sellingManager.sellCar(retrievedPerson.getId(), carId);
+		sellingManager.sellCar(retrievedRezyser.getId(), carId);
 
-		List<Car> ownedCars = sellingManager.getOwnedCars(retrievedPerson);
+		List<Car> ownedCars = sellingManager.getOwnedCars(retrievedRezyser);
 
 		assertEquals(1, ownedCars.size());
 		assertEquals(MAKE_2, ownedCars.get(0).getMake());
