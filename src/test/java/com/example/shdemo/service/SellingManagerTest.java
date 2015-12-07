@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.shdemo.domain.Car;
+import com.example.shdemo.domain.Film;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
@@ -39,12 +39,12 @@ public class SellingManagerTest {
 	@Test
 	public void addClientCheck() {
 
-		List<Rezyser> retrievedClients = sellingManager.getAllClients();
+		List<Rezyser> retrievedClients = sellingManager.getAllRezyzser();
 
 		// If there is a client with PIN_1 delete it
 		for (Rezyser client : retrievedClients) {
 			if (client.getPin().equals(PIN_1)) {
-				sellingManager.deleteClient(client);
+				sellingManager.deleteRezyser(client);
 			}
 		}
 
@@ -54,9 +54,9 @@ public class SellingManagerTest {
 		// ... other properties here
 
 		// Pin is Unique
-		sellingManager.addClient(rezyser);
+		sellingManager.addRezyser(rezyser);
 
-		Rezyser retrievedClient = sellingManager.findClientByPin(PIN_1);
+		Rezyser retrievedClient = sellingManager.findRezyserByPin(PIN_1);
 
 		assertEquals(NAME_1, retrievedClient.getFirstName());
 		assertEquals(PIN_1, retrievedClient.getPin());
@@ -66,16 +66,16 @@ public class SellingManagerTest {
 	@Test
 	public void addCarCheck() {
 
-		Car car = new Car();
-		car.setMake(MAKE_1);
-		car.setModel(MODEL_1);
+		Film film = new Film();
+		film.setMake(MAKE_1);
+		film.setModel(MODEL_1);
 		// ... other properties here
 
-		Long carId = sellingManager.addNewCar(car);
+		Long carId = sellingManager.addFilm(film);
 
-		Car retrievedCar = sellingManager.findCarById(carId);
-		assertEquals(MAKE_1, retrievedCar.getMake());
-		assertEquals(MODEL_1, retrievedCar.getModel());
+		Film retrievedFilm = sellingManager.findRezyserById(carId);
+		assertEquals(MAKE_1, retrievedFilm.getMake());
+		assertEquals(MODEL_1, retrievedFilm.getModel());
 		// ... check other properties here
 
 	}
@@ -87,23 +87,23 @@ public class SellingManagerTest {
 		rezyser.setFirstName(NAME_2);
 		rezyser.setPin(PIN_2);
 
-		sellingManager.addClient(rezyser);
+		sellingManager.addRezyser(rezyser);
 
-		Rezyser retrievedRezyser = sellingManager.findClientByPin(PIN_2);
+		Rezyser retrievedRezyser = sellingManager.findRezyserByPin(PIN_2);
 
-		Car car = new Car();
-		car.setMake(MAKE_2);
-		car.setModel(MODEL_2);
+		Film film = new Film();
+		film.setMake(MAKE_2);
+		film.setModel(MODEL_2);
 
-		Long carId = sellingManager.addNewCar(car);
+		Long carId = sellingManager.addFilm(film);
 
 		sellingManager.sellCar(retrievedRezyser.getId(), carId);
 
-		List<Car> ownedCars = sellingManager.getOwnedCars(retrievedRezyser);
+		List<Film> ownedFilms = sellingManager.getOwnedCars(retrievedRezyser);
 
-		assertEquals(1, ownedCars.size());
-		assertEquals(MAKE_2, ownedCars.get(0).getMake());
-		assertEquals(MODEL_2, ownedCars.get(0).getModel());
+		assertEquals(1, ownedFilms.size());
+		assertEquals(MAKE_2, ownedFilms.get(0).getMake());
+		assertEquals(MODEL_2, ownedFilms.get(0).getModel());
 	}
 
 	// @Test -

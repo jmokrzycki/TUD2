@@ -30,7 +30,7 @@ public class Rezyser {
 	private String pin = "";
 	private Date registrationDate = new Date();
 
-	private List<Car> cars = new ArrayList<Car>();
+	private List<Film> films = new ArrayList<Film>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -66,10 +66,10 @@ public class Rezyser {
 
 	// Be careful here, both with lazy and eager fetch type
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	public List<Car> getCars() {
-		return cars;
+	public List<Film> getFilms() {
+		return films;
 	}
-	public void setCars(List<Car> cars) {
-		this.cars = cars;
+	public void setFilms(List<Film> films) {
+		this.films = films;
 	}
 }

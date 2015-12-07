@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.shdemo.domain.Car;
+import com.example.shdemo.domain.Film;
 
 @Component
 @Transactional
@@ -27,93 +27,93 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 	
 	@Override
-	public void addClient(Rezyser rezyser) {
+	public void addRezyser(Rezyser rezyser) {
 		rezyser.setId(null);
 		sessionFactory.getCurrentSession().persist(rezyser);
 	}
 	
 	@Override
-	public void deleteClient(Rezyser rezyser) {
+	public void deleteRezyser(Rezyser rezyser) {
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
 		
 		// lazy loading here
-		for (Car car : rezyser.getCars()) {
-			car.setSold(false);
-			sessionFactory.getCurrentSession().update(car);
+		for (Film film : rezyser.getFilms()) {
+			film.setSold(false);
+			sessionFactory.getCurrentSession().update(film);
 		}
 		sessionFactory.getCurrentSession().delete(rezyser);
 	}
 
 	@Override
-	public List<Car> getOwnedCars(Rezyser rezyser) {
+	public List<Film> getOwnedCars(Rezyser rezyser) {
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
 		// lazy loading here - try this code without (shallow) copying
-		List<Car> cars = new ArrayList<Car>(rezyser.getCars());
-		return cars;
+		List<Film> films = new ArrayList<Film>(rezyser.getFilms());
+		return films;
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Rezyser> getAllClients() {
+	public List<Rezyser> getAllRezyzser() {
 		return sessionFactory.getCurrentSession().getNamedQuery("person.all")
 				.list();
 	}
 
 	@Override
-	public Rezyser findClientByPin(String pin) {
+	public Rezyser findRezyserByPin(String pin) {
 		return (Rezyser) sessionFactory.getCurrentSession().getNamedQuery("person.byPin").setString("pin", pin).uniqueResult();
 	}
 
 
 	@Override
-	public Long addNewCar(Car car) {
-		car.setId(null);
-		return (Long) sessionFactory.getCurrentSession().save(car);
+	public Long addFilm(Film film) {
+		film.setId(null);
+		return (Long) sessionFactory.getCurrentSession().save(film);
 	}
 
 	@Override
 	public void sellCar(Long personId, Long carId) {
 		Rezyser rezyser = (Rezyser) sessionFactory.getCurrentSession().get(
 				Rezyser.class, personId);
-		Car car = (Car) sessionFactory.getCurrentSession()
-				.get(Car.class, carId);
-		car.setSold(true);
-		rezyser.getCars().add(car);
+		Film film = (Film) sessionFactory.getCurrentSession()
+				.get(Film.class, carId);
+		film.setSold(true);
+		rezyser.getFilms().add(film);
 	}
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Car> getAvailableCars() {
+	public List<Film> getAvailableCars() {
 		return sessionFactory.getCurrentSession().getNamedQuery("car.unsold")
 				.list();
 	}
 	@Override
-	public void disposeCar(Rezyser rezyser, Car car) {
+	public void disposeCar(Rezyser rezyser, Film film) {
 
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
-		car = (Car) sessionFactory.getCurrentSession().get(Car.class,
-				car.getId());
+		film = (Film) sessionFactory.getCurrentSession().get(Film.class,
+				film.getId());
 
-		Car toRemove = null;
+		Film toRemove = null;
 		// lazy loading here (rezyser.getCars)
-		for (Car aCar : rezyser.getCars())
-			if (aCar.getId().compareTo(car.getId()) == 0) {
-				toRemove = aCar;
+		for (Film aFilm : rezyser.getFilms())
+			if (aFilm.getId().compareTo(film.getId()) == 0) {
+				toRemove = aFilm;
 				break;
 			}
 
 		if (toRemove != null)
-			rezyser.getCars().remove(toRemove);
+			rezyser.getFilms().remove(toRemove);
 
-		car.setSold(false);
+		film.setSold(false);
 	}
 
 	@Override
-	public Car findCarById(Long id) {
-		return (Car) sessionFactory.getCurrentSession().get(Car.class, id);
+	public Film findRezyserById(Long id) {
+		return (Film) sessionFactory.getCurrentSession().get(Film.class, id);
 	}
 
 }
