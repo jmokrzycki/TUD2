@@ -30,11 +30,19 @@ public class SellingManagerTest {
 	private final String NAME_2 = "Lolek";
 	private final String PIN_2 = "4321";
 
-	private final String MODEL_1 = "126p";
-	private final String MAKE_1 = "Fiat";
+	private final String TYTUL_1 = "126p";
+	private final String GATUNEK_1 = "Fiat";
 
-	private final String MODEL_2 = "Mondeo";
-	private final String MAKE_2 = "Ford";
+	private final String TYTUL_2 = "Mondeo";
+	private final String GATUNEK_2 = "Ford";
+
+	@Test
+	public void addFilmCheck() {
+
+		Film film = new Film();
+
+		//sellingManager.addFilm(50);
+	}
 
 	@Test
 	public void addClientCheck() {
@@ -67,15 +75,15 @@ public class SellingManagerTest {
 	public void addCarCheck() {
 
 		Film film = new Film();
-		film.setMake(MAKE_1);
-		film.setModel(MODEL_1);
+		film.setTytul(GATUNEK_1);
+		film.setGatunek(TYTUL_1);
 		// ... other properties here
 
 		Long carId = sellingManager.addFilm(film);
 
 		Film retrievedFilm = sellingManager.findRezyserById(carId);
-		assertEquals(MAKE_1, retrievedFilm.getMake());
-		assertEquals(MODEL_1, retrievedFilm.getModel());
+		assertEquals(GATUNEK_1, retrievedFilm.getTytul());
+		assertEquals(TYTUL_1, retrievedFilm.getGatunek());
 		// ... check other properties here
 
 	}
@@ -92,8 +100,8 @@ public class SellingManagerTest {
 		Rezyser retrievedRezyser = sellingManager.findRezyserByPin(PIN_2);
 
 		Film film = new Film();
-		film.setMake(MAKE_2);
-		film.setModel(MODEL_2);
+		film.setTytul(GATUNEK_2);
+		film.setGatunek(TYTUL_2);
 
 		Long carId = sellingManager.addFilm(film);
 
@@ -102,8 +110,8 @@ public class SellingManagerTest {
 		List<Film> ownedFilms = sellingManager.getOwnedCars(retrievedRezyser);
 
 		assertEquals(1, ownedFilms.size());
-		assertEquals(MAKE_2, ownedFilms.get(0).getMake());
-		assertEquals(MODEL_2, ownedFilms.get(0).getModel());
+		assertEquals(GATUNEK_2, ownedFilms.get(0).getTytul());
+		assertEquals(TYTUL_2, ownedFilms.get(0).getGatunek());
 	}
 
 	// @Test -

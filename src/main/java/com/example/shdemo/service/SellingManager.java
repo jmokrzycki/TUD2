@@ -7,7 +7,7 @@ import com.example.shdemo.domain.Rezyser;
 
 public interface SellingManager {
 	
-	void addRezyser(Rezyser rezyser);
+	void addRezyser(Rezyser rezyser);//ok
 	List<Rezyser> getAllRezyzser();
 	void deleteRezyser(Rezyser rezyser);
 	Rezyser findRezyserByPin(String pin);
