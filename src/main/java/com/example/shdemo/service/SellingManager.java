@@ -13,11 +13,17 @@ public interface SellingManager {
 	Rezyser findRezyserByPin(String pin);
 	
 	Long addFilm(Film film);
-	List<Film> getAvailableCars();
-	void disposeCar(Rezyser rezyser, Film film);
+	List<Film> getAvailableFilm();
+	void disposeFilm(Rezyser rezyser, Film film);
+
+
 	Film findRezyserById(Long id);
 
 	List<Film> getOwnedCars(Rezyser rezyser);
 	void sellCar(Long personId, Long carId);
 
+
+	void deleteFilm(Film film);
+	List<Film> getAllFilm();
+	Film findFilmByTytul(String tytul);
 }

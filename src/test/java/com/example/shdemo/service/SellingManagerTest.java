@@ -39,9 +39,28 @@ public class SellingManagerTest {
 	@Test
 	public void addFilmCheck() {
 
-		Film film = new Film();
+		List<Film> retrievedFilms = sellingManager.getAllFilm();
 
-		//sellingManager.addFilm(50);
+		// If there is a client with PIN_1 delete it
+		for (Film client : retrievedFilms) {
+			if (client.getTytul().equals(TYTUL_1)) {
+				sellingManager.deleteFilm(client);
+			}
+		}
+
+		Film film = new Film();
+		film.setTytul(TYTUL_1);
+		film.setGatunek(GATUNEK_1);
+		// ... other properties here
+
+		// Pin is Unique
+		sellingManager.addFilm(film);
+
+		Film retrievedClient = sellingManager.findFilmByTytul(TYTUL_1);
+
+		assertEquals(TYTUL_1, retrievedClient.getTytul());
+		assertEquals(GATUNEK_1, retrievedClient.getGatunek());
+		// ... check other properties here
 	}
 
 	@Test

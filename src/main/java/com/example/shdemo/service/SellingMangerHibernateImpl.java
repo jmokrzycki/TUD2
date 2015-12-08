@@ -85,12 +85,12 @@ public class SellingMangerHibernateImpl implements SellingManager {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Film> getAvailableCars() {
+	public List<Film> getAvailableFilm() {
 		return sessionFactory.getCurrentSession().getNamedQuery("car.unsold")
 				.list();
 	}
 	@Override
-	public void disposeCar(Rezyser rezyser, Film film) {
+	public void disposeFilm(Rezyser rezyser, Film film) {
 
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
@@ -116,4 +116,25 @@ public class SellingMangerHibernateImpl implements SellingManager {
 		return (Film) sessionFactory.getCurrentSession().get(Film.class, id);
 	}
 
+	@Override
+	public List<Film> getAllFilm(){
+		return sessionFactory.getCurrentSession().getNamedQuery("person.all").list();
+	}
+
+	@Override
+	public void deleteFilm(Film film) {
+		//film = (Film) sessionFactory.getCurrentSession().get(Rezyser.class,
+		//		film.getId());
+		//// lazy loading here
+		//for (Rezyser rezyser : rezyser.getFilms()) {
+		//	rezyser.setSold(false);
+		//	sessionFactory.getCurrentSession().update(film);
+		//}
+		sessionFactory.getCurrentSession().delete(film);
+	}
+
+	@Override
+	public Film findFilmByTytul(String tytul) {
+		return (Film) sessionFactory.getCurrentSession().getNamedQuery("film.byTytul").setString("tytul", tytul).uniqueResult();
+	}
 }
