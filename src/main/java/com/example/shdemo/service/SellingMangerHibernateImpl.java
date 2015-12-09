@@ -117,18 +117,6 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public void deleteFilm(Film film) {
-		//film = (Film) sessionFactory.getCurrentSession().get(Rezyser.class,
-		//		film.getId());
-		//// lazy loading here
-		//for (Rezyser rezyser : rezyser.getFilms()) {
-		//	rezyser.setSold(false);
-		//	sessionFactory.getCurrentSession().update(film);
-		//}
-		sessionFactory.getCurrentSession().delete(film);
-	}
-
-	@Override
 	public List<Film> getAllFilm(){
 		return sessionFactory.getCurrentSession().getNamedQuery("film.all").list();
 	}
@@ -153,4 +141,17 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	public void updateRezyser(Rezyser rezyser){
 		sessionFactory.getCurrentSession().update(rezyser);
 	}
+
+	@Override
+	public void deleteFilm(Film film) {
+		//film = (Film) sessionFactory.getCurrentSession().get(Rezyser.class,
+		//		film.getId());
+		//// lazy loading here
+		//for (Rezyser rezyser : rezyser.getFilms()) {
+		//	rezyser.setSold(false);
+		//	sessionFactory.getCurrentSession().update(film);
+		//}
+		sessionFactory.getCurrentSession().delete(film);
+	}
+
 }

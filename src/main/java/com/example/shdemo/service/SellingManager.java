@@ -23,13 +23,17 @@ public interface SellingManager {
 	void sellCar(Long personId, Long carId);
 
 
-	void deleteFilm(Film film);
+
+
 	List<Film> getAllFilm();
 	Film findFilmByTytul(String tytul);
 	Film findFilmById(int id);
 
 	void updateFilm(Film film);
 	void updateRezyser(Rezyser rezyser);
+
+	void deleteFilm(Film film);
+
 }
 
 //add ok

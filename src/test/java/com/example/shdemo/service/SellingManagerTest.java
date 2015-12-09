@@ -137,7 +137,25 @@ public class SellingManagerTest {
 		// Do it yourself
 	}
 
+	//do starego
+
+	@Test
+	public void deleteRezyserCheck() {
+		Rezyser rezyser = new Rezyser();
+		rezyser.setFirstName(NAME_1);
+		rezyser.setPin(PIN_1);
+
+		sellingManager.addRezyser(rezyser);
+
+		sellingManager.deleteRezyser(rezyser);
+
+		Rezyser retrievedClient = sellingManager.findRezyserByPin(PIN_1);
+
+		assertEquals(null, retrievedClient);
+	}
+
 	//nowe
+
 
 	@Test
 	public void updateFilmCheck() {
@@ -177,5 +195,20 @@ public class SellingManagerTest {
 		assertEquals(PIN_1, retrievedClient.getPin());
 	}
 
+	@Test
+	public void deleteFilmCheck() {
+		//dodanie testowego filmu
+		Film film = new Film();
+		film.setTytul(TYTUL_1);
+		film.setGatunek(GATUNEK_1);
 
+		sellingManager.addFilm(film);
+
+		sellingManager.deleteFilm(film);
+
+		Film retrievedClient = sellingManager.findFilmByTytul(TYTUL_1);
+
+		assertEquals(null, retrievedClient);
+
+	}
 }
