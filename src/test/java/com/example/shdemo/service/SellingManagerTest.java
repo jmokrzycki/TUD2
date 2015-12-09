@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import com.example.shdemo.domain.Rezyser;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class SellingManagerTest {
 	private final String TYTUL_2 = "Mondeo";
 	private final String GATUNEK_2 = "Ford";
 
+
+
+
 	@Test
 	public void addFilmCheck() {
 		List<Film> retrievedFilms = sellingManager.getAllFilm();
@@ -63,7 +67,7 @@ public class SellingManagerTest {
 	}
 
 	@Test
-	public void addClientCheck() {
+	public void addRezyserCheck() {
 
 		List<Rezyser> retrievedClients = sellingManager.getAllRezyzser();
 
@@ -87,23 +91,6 @@ public class SellingManagerTest {
 		assertEquals(NAME_1, retrievedClient.getFirstName());
 		assertEquals(PIN_1, retrievedClient.getPin());
 		// ... check other properties here
-	}
-
-	@Test
-	public void addCarCheck() {
-
-		Film film = new Film();
-		film.setTytul(GATUNEK_1);
-		film.setGatunek(TYTUL_1);
-		// ... other properties here
-
-		Long carId = sellingManager.addFilm(film);
-
-		Film retrievedFilm = sellingManager.findRezyserById(carId);
-		assertEquals(GATUNEK_1, retrievedFilm.getTytul());
-		assertEquals(TYTUL_1, retrievedFilm.getGatunek());
-		// ... check other properties here
-
 	}
 
 	@Test
@@ -141,6 +128,13 @@ public class SellingManagerTest {
 
 	@Test
 	public void deleteRezyserCheck() {
+		//sprawdzenie czy istnieja jakies rekory przed usunieciem
+		//zapisanie stanu bazy do porownania przed usunieciem
+		List<Rezyser> rezyserzyPrzedAktualizacja = sellingManager.getAllRezyzser();
+
+		int iloscRezyserowPrzedUsunieciem = rezyserzyPrzedAktualizacja.size();
+
+
 		Rezyser rezyser = new Rezyser();
 		rezyser.setFirstName(NAME_1);
 		rezyser.setPin(PIN_1);
@@ -152,6 +146,14 @@ public class SellingManagerTest {
 		Rezyser retrievedClient = sellingManager.findRezyserByPin(PIN_1);
 
 		assertEquals(null, retrievedClient);
+
+		//porownanie bazy po aktualizacji z przed, jesli byly wczesniej dane
+		if(iloscRezyserowPrzedUsunieciem > 0){
+			for(Rezyser r : rezyserzyPrzedAktualizacja){
+				sellingManager.findRezyserById(r.getId());
+			}
+		}
+
 	}
 
 	//nowe

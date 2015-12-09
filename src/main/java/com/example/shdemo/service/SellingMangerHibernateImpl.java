@@ -112,8 +112,8 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public Film findRezyserById(Long id) {
-		return (Film) sessionFactory.getCurrentSession().get(Film.class, id);
+	public Rezyser findRezyserById(Long id) {
+		return (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class, id);
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public Film findFilmById(int id){
+	public Film findFilmById(Long id){
 		return (Film) sessionFactory.getCurrentSession().get(Film.class, id);
 	}
 
@@ -144,13 +144,6 @@ public class SellingMangerHibernateImpl implements SellingManager {
 
 	@Override
 	public void deleteFilm(Film film) {
-		//film = (Film) sessionFactory.getCurrentSession().get(Rezyser.class,
-		//		film.getId());
-		//// lazy loading here
-		//for (Rezyser rezyser : rezyser.getFilms()) {
-		//	rezyser.setSold(false);
-		//	sessionFactory.getCurrentSession().update(film);
-		//}
 		sessionFactory.getCurrentSession().delete(film);
 	}
 

@@ -17,7 +17,7 @@ public interface SellingManager {
 	void disposeFilm(Rezyser rezyser, Film film);
 
 
-	Film findRezyserById(Long id);
+	Rezyser findRezyserById(Long id);
 
 	List<Film> getOwnedCars(Rezyser rezyser);
 	void sellCar(Long personId, Long carId);
@@ -27,7 +27,7 @@ public interface SellingManager {
 
 	List<Film> getAllFilm();
 	Film findFilmByTytul(String tytul);
-	Film findFilmById(int id);
+	Film findFilmById(Long id);
 
 	void updateFilm(Film film);
 	void updateRezyser(Rezyser rezyser);
@@ -36,7 +36,7 @@ public interface SellingManager {
 
 }
 
-//add ok
+//add ok testy ok
 //read ok
-//update
-//delete
+//update ok testy ok
+//delete ok testy ok
