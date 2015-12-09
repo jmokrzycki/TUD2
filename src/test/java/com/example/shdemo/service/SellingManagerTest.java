@@ -37,7 +37,12 @@ public class SellingManagerTest {
 	private final String TYTUL_2 = "Mondeo";
 	private final String GATUNEK_2 = "Ford";
 
-
+	//@Before() {
+	//	List<Film> filmy = sellingManager.getAllFilm();
+	//	List<Rezyser> rezyzerzy = sellingManager.getAllRezyzser();
+//
+//
+	//}
 
 
 	@Test
@@ -130,11 +135,11 @@ public class SellingManagerTest {
 	public void deleteRezyserCheck() {
 		//sprawdzenie czy istnieja jakies rekory przed usunieciem
 		//zapisanie stanu bazy do porownania przed usunieciem
-		List<Rezyser> rezyserzyPrzedAktualizacja = sellingManager.getAllRezyzser();
+		List<Rezyser> rekordyPrzedAktualizacja = sellingManager.getAllRezyzser();
 
-		int iloscRezyserowPrzedUsunieciem = rezyserzyPrzedAktualizacja.size();
+		int iloscRekordowPrzedUsunieciem = rekordyPrzedAktualizacja.size();
 
-
+		//dodanie testowego filmu
 		Rezyser rezyser = new Rezyser();
 		rezyser.setFirstName(NAME_1);
 		rezyser.setPin(PIN_1);
@@ -147,13 +152,18 @@ public class SellingManagerTest {
 
 		assertEquals(null, retrievedClient);
 
+		boolean brakujacyRekord = false;
 		//porownanie bazy po aktualizacji z przed, jesli byly wczesniej dane
-		if(iloscRezyserowPrzedUsunieciem > 0){
-			for(Rezyser r : rezyserzyPrzedAktualizacja){
-				sellingManager.findRezyserById(r.getId());
+		if(iloscRekordowPrzedUsunieciem > 0){
+			for(Rezyser r : rekordyPrzedAktualizacja){
+				if (sellingManager.findFilmById(r.getId()) == null) {
+					brakujacyRekord = true;
+					break;
+				}
 			}
 		}
 
+		assertEquals(false, brakujacyRekord);
 	}
 
 	//nowe
@@ -199,6 +209,10 @@ public class SellingManagerTest {
 
 	@Test
 	public void deleteFilmCheck() {
+		List<Film> rekordyPrzedAktualizacja = sellingManager.getAllFilm();
+
+		int iloscRekordowPrzedUsunieciem = rekordyPrzedAktualizacja.size();
+
 		//dodanie testowego filmu
 		Film film = new Film();
 		film.setTytul(TYTUL_1);
@@ -212,5 +226,17 @@ public class SellingManagerTest {
 
 		assertEquals(null, retrievedClient);
 
+		boolean brakujacyRekord = false;
+		//porownanie bazy po aktualizacji z przed, jesli byly wczesniej dane
+		if(iloscRekordowPrzedUsunieciem > 0){
+			for(Film f : rekordyPrzedAktualizacja){
+				if (sellingManager.findFilmById(f.getId()) == null) {
+						brakujacyRekord = true;
+						break;
+				}
+			}
+		}
+
+		assertEquals(false, brakujacyRekord);
 	}
 }
