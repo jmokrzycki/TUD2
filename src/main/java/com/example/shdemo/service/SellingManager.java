@@ -26,4 +26,13 @@ public interface SellingManager {
 	void deleteFilm(Film film);
 	List<Film> getAllFilm();
 	Film findFilmByTytul(String tytul);
+	Film findFilmById(int id);
+
+	void updateFilm(Film film);
+	void updateRezyser(Rezyser rezyser);
 }
+
+//add ok
+//read ok
+//update
+//delete

@@ -38,7 +38,6 @@ public class SellingManagerTest {
 
 	@Test
 	public void addFilmCheck() {
-
 		List<Film> retrievedFilms = sellingManager.getAllFilm();
 
 		// If there is a client with PIN_1 delete it
@@ -137,5 +136,46 @@ public class SellingManagerTest {
 	public void disposeCarCheck() {
 		// Do it yourself
 	}
+
+	//nowe
+
+	@Test
+	public void updateFilmCheck() {
+		//dodanie testowego filmu
+		Film film = new Film();
+		film.setTytul(TYTUL_1);
+		film.setGatunek(GATUNEK_1);
+
+		sellingManager.addFilm(film);
+
+		//zmiana nazwy
+		film.setTytul(TYTUL_2);
+		sellingManager.updateFilm(film);
+
+		Film retrievedClient = sellingManager.findFilmByTytul(TYTUL_2);
+
+		assertEquals(TYTUL_2, retrievedClient.getTytul());
+		assertEquals(GATUNEK_1, retrievedClient.getGatunek());
+	}
+
+	@Test
+	public void updateRezyserCheck() {
+		//dodanie testowego rezysera
+		Rezyser rezyser = new Rezyser();
+		rezyser.setFirstName(NAME_1);
+		rezyser.setPin(PIN_1);
+
+		sellingManager.addRezyser(rezyser);
+
+		//zmiana nazwy
+		rezyser.setFirstName(NAME_2);
+		sellingManager.updateRezyser(rezyser);
+
+		Rezyser retrievedClient = sellingManager.findRezyserByPin(PIN_1);
+
+		assertEquals(NAME_2, retrievedClient.getFirstName());
+		assertEquals(PIN_1, retrievedClient.getPin());
+	}
+
 
 }

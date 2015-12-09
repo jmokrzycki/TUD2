@@ -117,11 +117,6 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public List<Film> getAllFilm(){
-		return sessionFactory.getCurrentSession().getNamedQuery("person.all").list();
-	}
-
-	@Override
 	public void deleteFilm(Film film) {
 		//film = (Film) sessionFactory.getCurrentSession().get(Rezyser.class,
 		//		film.getId());
@@ -134,7 +129,28 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
+	public List<Film> getAllFilm(){
+		return sessionFactory.getCurrentSession().getNamedQuery("film.all").list();
+	}
+
+
+	@Override
 	public Film findFilmByTytul(String tytul) {
 		return (Film) sessionFactory.getCurrentSession().getNamedQuery("film.byTytul").setString("tytul", tytul).uniqueResult();
+	}
+
+	@Override
+	public Film findFilmById(int id){
+		return (Film) sessionFactory.getCurrentSession().get(Film.class, id);
+	}
+
+	@Override
+	public void updateFilm(Film film){
+		sessionFactory.getCurrentSession().update(film);
+	}
+
+	@Override
+	public void updateRezyser(Rezyser rezyser){
+		sessionFactory.getCurrentSession().update(rezyser);
 	}
 }
