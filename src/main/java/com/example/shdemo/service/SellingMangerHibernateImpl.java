@@ -2,6 +2,8 @@ package com.example.shdemo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import com.example.shdemo.domain.Rezyser;
 import org.hibernate.SessionFactory;
@@ -147,4 +149,22 @@ public class SellingMangerHibernateImpl implements SellingManager {
 		sessionFactory.getCurrentSession().delete(film);
 	}
 
+	@Override
+	public List<Rezyser> searchTwoElementName()	{
+		List<Rezyser> rezyserzy = getAllRezyzser();
+		String pattern1 = "\\w+-\\w+";
+		Pattern r = Pattern.compile(pattern1);
+
+		List<Rezyser> rezyserzyWynik = new ArrayList<Rezyser>();
+
+		for(Rezyser rezyser : rezyserzy){
+			Matcher m = r.matcher(rezyser.getPin());
+			if (m.find( )) {
+				rezyserzyWynik.add(rezyser);
+			}
+		}
+
+
+		return rezyserzyWynik;
+	}
 }

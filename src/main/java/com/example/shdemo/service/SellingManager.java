@@ -34,6 +34,8 @@ public interface SellingManager {
 
 	void deleteFilm(Film film);
 
+	List<Rezyser> searchTwoElementName();
+
 }
 
 //add ok testy ok

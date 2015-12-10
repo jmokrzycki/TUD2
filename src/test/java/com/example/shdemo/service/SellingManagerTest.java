@@ -29,7 +29,7 @@ public class SellingManagerTest {
 	private final String PIN_1 = "1234";
 
 	private final String NAME_2 = "Lolek";
-	private final String PIN_2 = "4321";
+	private final String PIN_2 = "Abdullah-Allah";
 
 	private final String TYTUL_1 = "126p";
 	private final String GATUNEK_1 = "Fiat";
@@ -238,5 +238,26 @@ public class SellingManagerTest {
 		}
 
 		assertEquals(false, brakujacyRekord);
+	}
+
+
+	@Test
+	public void searchTwoElementName() {
+		Rezyser rezyser1 = new Rezyser();
+		rezyser1.setFirstName(NAME_1);
+		rezyser1.setPin(PIN_1);
+
+		sellingManager.addRezyser(rezyser1);
+
+		Rezyser rezyser2 = new Rezyser();
+		rezyser2.setFirstName(NAME_2);
+		rezyser2.setPin(PIN_2);
+
+		sellingManager.addRezyser(rezyser2);
+
+		List<Rezyser> twoElementNameRezyser = sellingManager.searchTwoElementName();
+
+		assertEquals(1, twoElementNameRezyser.size());
+		assertEquals(PIN_2, twoElementNameRezyser.get(0).getPin());
 	}
 }
