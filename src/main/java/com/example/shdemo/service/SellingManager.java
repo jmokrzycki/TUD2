@@ -20,7 +20,7 @@ public interface SellingManager {
 	Rezyser findRezyserById(Long id);
 
 	List<Film> getOwnedCars(Rezyser rezyser);
-	void sellCar(Long personId, Long carId);
+	void setRezyserToFilm(Long personId, Long carId);
 
 
 

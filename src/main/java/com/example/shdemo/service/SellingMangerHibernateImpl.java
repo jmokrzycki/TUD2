@@ -41,7 +41,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 		
 		// lazy loading here
 		for (Film film : rezyser.getFilms()) {
-			film.setSold(false);
+			film.setHaveRezyser(false);
 			sessionFactory.getCurrentSession().update(film);
 		}
 		sessionFactory.getCurrentSession().delete(rezyser);
@@ -75,13 +75,14 @@ public class SellingMangerHibernateImpl implements SellingManager {
 		return (Long) sessionFactory.getCurrentSession().save(film);
 	}
 
+	//todo
 	@Override
-	public void sellCar(Long personId, Long carId) {
+	public void setRezyserToFilm(Long personId, Long carId) {
 		Rezyser rezyser = (Rezyser) sessionFactory.getCurrentSession().get(
 				Rezyser.class, personId);
 		Film film = (Film) sessionFactory.getCurrentSession()
 				.get(Film.class, carId);
-		film.setSold(true);
+		film.setHaveRezyser(true);
 		rezyser.getFilms().add(film);
 	}
 
@@ -110,7 +111,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 		if (toRemove != null)
 			rezyser.getFilms().remove(toRemove);
 
-		film.setSold(false);
+		film.setHaveRezyser(false);
 	}
 
 	@Override

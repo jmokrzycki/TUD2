@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import com.example.shdemo.domain.Rezyser;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +114,7 @@ public class SellingManagerTest {
 
 		Long carId = sellingManager.addFilm(film);
 
-		sellingManager.sellCar(retrievedRezyser.getId(), carId);
+		sellingManager.setRezyserToFilm(retrievedRezyser.getId(), carId);
 
 		List<Film> ownedFilms = sellingManager.getOwnedCars(retrievedRezyser);
 
