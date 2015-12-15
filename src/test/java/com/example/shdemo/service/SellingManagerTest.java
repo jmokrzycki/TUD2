@@ -5,9 +5,12 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import com.example.shdemo.domain.Rezyser;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -30,28 +33,54 @@ public class SellingManagerTest {
 	private final String NAME_2 = "Lolek";
 	private final String PIN_2 = "Abdullah-Allah";
 
-	private final String TYTUL_1 = "126p";
-	private final String GATUNEK_1 = "Fiat";
+	private final String TYTUL_1 = "Akcji1";
+	private final String GATUNEK_1 = "Akcja";
 
-	private final String TYTUL_2 = "Mondeo";
-	private final String GATUNEK_2 = "Ford";
+	private final String TYTUL_2 = "Akcji2";
+	private final String GATUNEK_2 = "Dramat";
 
-	//@Before() {
-	//	List<Film> filmy = sellingManager.getAllFilm();
-	//	List<Rezyser> rezyzerzy = sellingManager.getAllRezyzser();
-//
-//
-	//}
 
+	@Before
+	public void fillDatabase(){
+		Film film1  = new Film();
+		film1.setTytul("PierwszyTytul");
+		film1.setGatunek("PierwszyGatunek");
+		sellingManager.addFilm(film1);
+
+		Film film2  = new Film();
+		film2.setTytul("DrugiTytul");
+		film2.setGatunek("DrugiGatunek");
+		sellingManager.addFilm(film2);
+
+		Film film3  = new Film();
+		film3.setTytul("TrzeciTytul");
+		film3.setGatunek("TrzeciGatunek");
+		sellingManager.addFilm(film3);
+
+		Rezyser rezyser1 = new Rezyser();
+		rezyser1.setFirstName("PierwszeImie");
+		rezyser1.setPin("PierwszyPin");
+		sellingManager.addRezyser(rezyser1);
+
+		Rezyser rezyser2 = new Rezyser();
+		rezyser2.setFirstName("DrugieImie");
+		rezyser2.setPin("DrugiPin");
+		sellingManager.addRezyser(rezyser2);
+
+		Rezyser rezyser3 = new Rezyser();
+		rezyser3.setFirstName("TrzecieImie");
+		rezyser3.setPin("TrzeciPin");
+		sellingManager.addRezyser(rezyser3);
+	}
 
 	@Test
 	public void addFilmCheck() {
 		List<Film> retrievedFilms = sellingManager.getAllFilm();
 
 		// If there is a client with PIN_1 delete it
-		for (Film client : retrievedFilms) {
-			if (client.getTytul().equals(TYTUL_1)) {
-				sellingManager.deleteFilm(client);
+		for (Film film : retrievedFilms) {
+			if (film.getTytul().equals(TYTUL_1)) {
+				sellingManager.deleteFilm(film);
 			}
 		}
 
@@ -116,7 +145,7 @@ public class SellingManagerTest {
 
 		sellingManager.setRezyserToFilm(retrievedRezyser.getId(), carId);
 
-		List<Film> ownedFilms = sellingManager.getOwnedCars(retrievedRezyser);
+		List<Film> ownedFilms = sellingManager.getOwnedFilm(retrievedRezyser);
 
 		assertEquals(1, ownedFilms.size());
 		assertEquals(GATUNEK_2, ownedFilms.get(0).getTytul());
@@ -138,7 +167,7 @@ public class SellingManagerTest {
 
 		int iloscRekordowPrzedUsunieciem = rekordyPrzedAktualizacja.size();
 
-		//dodanie testowego filmu
+		//dodanie testowego rezysera
 		Rezyser rezyser = new Rezyser();
 		rezyser.setFirstName(NAME_1);
 		rezyser.setPin(PIN_1);
@@ -155,7 +184,7 @@ public class SellingManagerTest {
 		//porownanie bazy po aktualizacji z przed, jesli byly wczesniej dane
 		if(iloscRekordowPrzedUsunieciem > 0){
 			for(Rezyser r : rekordyPrzedAktualizacja){
-				if (sellingManager.findFilmById(r.getId()) == null) {
+				if (sellingManager.findRezyserById(r.getId()) == null) {
 					brakujacyRekord = true;
 					break;
 				}
@@ -259,4 +288,6 @@ public class SellingManagerTest {
 		assertEquals(1, twoElementNameRezyser.size());
 		assertEquals(PIN_2, twoElementNameRezyser.get(0).getPin());
 	}
+
+
 }

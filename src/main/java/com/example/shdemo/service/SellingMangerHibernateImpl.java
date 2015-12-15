@@ -48,7 +48,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public List<Film> getOwnedCars(Rezyser rezyser) {
+	public List<Film> getOwnedFilm(Rezyser rezyser) {
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
 		// lazy loading here - try this code without (shallow) copying
@@ -89,7 +89,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Film> getAvailableFilm() {
-		return sessionFactory.getCurrentSession().getNamedQuery("car.unsold")
+		return sessionFactory.getCurrentSession().getNamedQuery("film.notHavingRezyser")
 				.list();
 	}
 	@Override

@@ -28,7 +28,7 @@ public class Rezyser {
 
 	private String firstName = "unknown";
 	private String pin = "";
-	private Date registrationDate = new Date();
+	private Date birthDate = new Date();
 
 	private List<Film> films = new ArrayList<Film>();
 
@@ -57,11 +57,11 @@ public class Rezyser {
 	}
 
 	@Temporal(TemporalType.DATE)
-	public Date getRegistrationDate() {
-		return registrationDate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	// Be careful here, both with lazy and eager fetch type
