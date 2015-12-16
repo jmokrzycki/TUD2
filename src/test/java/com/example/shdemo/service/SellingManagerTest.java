@@ -71,8 +71,6 @@ public class SellingManagerTest {
 	public void clearDatabase(){
 		sellingManager.deleteAllFilm();
 		sellingManager.deleteAllRezyser();
-
-
 	}
 	@Test
 	public void addFilmCheck() {
@@ -146,7 +144,7 @@ public class SellingManagerTest {
 
 		Rezyser retrievedRezyser2 = sellingManager.findRezyserByPin(PIN_2);
 		List<Film> retrievedFilm = retrievedRezyser2.getFilms();
-	
+
 		boolean assignedRezyserToFilm = false;
 		for(Film f : retrievedFilm){
 			if(f.getId() == retrievedFilmId){
@@ -154,7 +152,7 @@ public class SellingManagerTest {
 			}
 		}
 
-		//assertEquals(true, true);
+		assertEquals(true, assignedRezyserToFilm);
 	}
 
 	// @Test -
