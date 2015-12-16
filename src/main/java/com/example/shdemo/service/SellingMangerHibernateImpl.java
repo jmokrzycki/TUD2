@@ -48,7 +48,7 @@ public class SellingMangerHibernateImpl implements SellingManager {
 	}
 
 	@Override
-	public List<Film> getOwnedFilm(Rezyser rezyser) {
+	public List<Film> getOwnedFilms(Rezyser rezyser) {
 		rezyser = (Rezyser) sessionFactory.getCurrentSession().get(Rezyser.class,
 				rezyser.getId());
 		// lazy loading here - try this code without (shallow) copying
@@ -77,11 +77,11 @@ public class SellingMangerHibernateImpl implements SellingManager {
 
 	//todo
 	@Override
-	public void setRezyserToFilm(Long personId, Long carId) {
+	public void assignRezyserToFilm(Long rezyserId, Long filmId) {
 		Rezyser rezyser = (Rezyser) sessionFactory.getCurrentSession().get(
-				Rezyser.class, personId);
+				Rezyser.class, rezyserId);
 		Film film = (Film) sessionFactory.getCurrentSession()
-				.get(Film.class, carId);
+				.get(Film.class, filmId);
 		film.setHaveRezyser(true);
 		rezyser.getFilms().add(film);
 	}
@@ -167,5 +167,21 @@ public class SellingMangerHibernateImpl implements SellingManager {
 
 
 		return rezyserzyWynik;
+	}
+
+	@Override
+	public void deleteAllFilm(){
+		List<Film> filmy = getAllFilm();
+		for (Film f : filmy){
+			deleteFilm(f);
+		}
+	}
+
+	@Override
+	public void deleteAllRezyser(){
+		List<Rezyser> rezyserzy = getAllRezyzser();
+		for (Rezyser r : rezyserzy){
+			deleteRezyser(r);
+		}
 	}
 }

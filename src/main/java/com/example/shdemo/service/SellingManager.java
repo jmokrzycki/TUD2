@@ -19,8 +19,8 @@ public interface SellingManager {
 
 	Rezyser findRezyserById(Long id);
 
-	List<Film> getOwnedFilm(Rezyser rezyser);
-	void setRezyserToFilm(Long personId, Long carId);
+	List<Film> getOwnedFilms(Rezyser rezyser);
+	void assignRezyserToFilm(Long rezyserId, Long filmId);
 
 
 
@@ -36,6 +36,8 @@ public interface SellingManager {
 
 	List<Rezyser> searchTwoElementName();
 
+	void deleteAllFilm();
+	void deleteAllRezyser();
 }
 
 //add ok testy ok
