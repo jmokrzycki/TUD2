@@ -2,6 +2,7 @@ package com.example.shdemo.service;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.shdemo.domain.Rezyser;
@@ -37,7 +38,6 @@ public class SellingManagerTest {
 
 	private final String TYTUL_2 = "Akcji2";
 	private final String GATUNEK_2 = "Dramat";
-
 
 	@Before
 	public void fillDatabase(){
@@ -143,6 +143,7 @@ public class SellingManagerTest {
 		sellingManager.assignRezyserToFilm(retrievedRezyser.getId(), retrievedFilmId);
 
 		Rezyser retrievedRezyser2 = sellingManager.findRezyserByPin(PIN_2);
+
 		List<Film> retrievedFilm = retrievedRezyser2.getFilms();
 
 		boolean assignedRezyserToFilm = false;
@@ -153,6 +154,9 @@ public class SellingManagerTest {
 		}
 
 		assertEquals(true, assignedRezyserToFilm);
+
+		//usuniecie listy filmow z testowego rezysera (teraz mozna usuwac rezysera, nie ma relacji do filmow)
+		retrievedRezyser2.removaAllFilmsFromRezyser();
 	}
 
 	// @Test -

@@ -72,4 +72,8 @@ public class Rezyser {
 	public void setFilms(List<Film> films) {
 		this.films = films;
 	}
+
+	public void removaAllFilmsFromRezyser(){
+		this.films = new ArrayList<Film>();
+	}
 }
