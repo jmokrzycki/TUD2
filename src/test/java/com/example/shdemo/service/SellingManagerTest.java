@@ -20,7 +20,7 @@ import com.example.shdemo.domain.Film;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/beans.xml" })
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class SellingManagerTest {
 
@@ -31,7 +31,7 @@ public class SellingManagerTest {
 	private final String PIN_1 = "1234";
 
 	private final String NAME_2 = "Lolek";
-	private final String PIN_2 = "Abdullah-Allah";
+	private final String PIN_2 = "Jan-Kowalski";
 
 	private final String TYTUL_1 = "Akcji1";
 	private final String GATUNEK_1 = "Akcja";
@@ -39,8 +39,21 @@ public class SellingManagerTest {
 	private final String TYTUL_2 = "Akcji2";
 	private final String GATUNEK_2 = "Dramat";
 
+	private List<Long>  istniejaceFilmy  = new ArrayList<Long>();
+	private List<Long>  istniejacyRezyserzy = new ArrayList<Long>();
+
 	@Before
 	public void fillDatabase(){
+		List<Film> filmy = sellingManager.getAllFilm();
+		List<Rezyser> rezyserzy = sellingManager.getAllRezyzser();
+
+		for(Film f : filmy)
+			istniejaceFilmy.add(f.getId());
+
+		for(Rezyser r : rezyserzy)
+			istniejacyRezyserzy.add(r.getId());
+
+
 		Film film1  = new Film();
 		film1.setTytul("PierwszyTytul");
 		film1.setGatunek("PierwszyGatunek");
@@ -69,8 +82,33 @@ public class SellingManagerTest {
 
 	@After
 	public void clearDatabase(){
-		sellingManager.deleteAllFilm();
-		sellingManager.deleteAllRezyser();
+		List<Film> noweFilmy = sellingManager.getAllFilm();
+		List<Rezyser> nowiRezyserzy = sellingManager.getAllRezyzser();
+
+		boolean usun;
+
+		for(Film f : noweFilmy) {
+			usun = true;
+			for (Long f1 : istniejaceFilmy)
+				if (f.getId() == f1) {
+					usun = false;
+					break;
+				}
+			if(usun)
+				sellingManager.deleteFilm(f);
+		}
+
+		for(Rezyser r : nowiRezyserzy) {
+			usun = true;
+			for (Long r1 : istniejacyRezyserzy)
+				if (r.getId() == r1)
+				{
+					usun = false;
+					break;
+				}
+			if(usun)
+				sellingManager.deleteRezyser(r);
+		}
 	}
 	@Test
 	public void addFilmCheck() {
